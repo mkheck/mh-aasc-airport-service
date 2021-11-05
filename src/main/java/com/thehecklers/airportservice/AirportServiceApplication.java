@@ -64,7 +64,6 @@ class AirportController {
 @Service
 @RequiredArgsConstructor
 class AirportService {
-    // NOTE: Convert to use Azure Key Vault for secret here
     @Value("${avwx-token:NoValidTokenRetrieved}")
     private String token;
     private final WebClient client = WebClient.create("https://avwx.rest/api/station/");
