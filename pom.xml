@@ -15,7 +15,7 @@
 	<description>Airport service</description>
 	<properties>
 		<java.version>17</java.version>
-		<azure.version>3.9.0</azure.version>
+		<azure.version>3.10.0</azure.version>
 	</properties>
 	<dependencies>
 		<dependency>
