@@ -13,7 +13,6 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -39,25 +38,32 @@ public class AirportServiceApplication {
 }
 
 @RestController
-@RequestMapping("/airports")
 @AllArgsConstructor
 class AirportController {
     private final AirportService service;
 
     @GetMapping
     Flux<Airport> getAllAirports() {
-        return service.getAllAirports();
+        System.out.println(">>>> getAllAirports()");
+        return service.getAllAirports()
+                .log();
     }
 
-    @GetMapping("/summary")
+    @GetMapping("/list")
     Flux<String> getAirportSummary() {
+        System.out.println(">>>> getAirportSummary() - /list");
+
         return service.getAllAirports()
-                .map(ap -> ap.getIcao() + ", " + ap.getName() + "\n");
+                .map(ap -> ap.getIcao() + ", " + ap.getName() + "\n")
+                .log();
     }
 
     @GetMapping("/airport/{id}")
     Mono<Airport> getAirportById(@PathVariable String id) {
-        return service.getAirportById(id);
+        System.out.println(">>>> getAirportById() - /airport/{id}");
+
+        return service.getAirportById(id)
+                .log();
     }
 }
 
