@@ -70,7 +70,7 @@ class AirportController {
 @Service
 @RequiredArgsConstructor
 class AirportService {
-    @Value("${avwx-token:NoValidTokenRetrieved}")
+    @Value("${avwx.token:NoValidTokenRetrieved}")
     private String token;
     private final WebClient client = WebClient.create("https://avwx.rest/api/station/");
 
