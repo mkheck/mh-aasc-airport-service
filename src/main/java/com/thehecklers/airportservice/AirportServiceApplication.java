@@ -42,6 +42,36 @@ public class AirportServiceApplication {
 class AirportController {
     private final AirportService service;
 
+    // Sample values served up by Config Service
+    @Value("{testplane:Archer}")
+    private String defaultAircraft;
+    @Value("{test.plane:Arrow}")
+    private String defaultComplexAircraft;
+    @Value("{airport:KABC}")
+    private String defaultAirport;
+    @Value("{fbo.fuel:avgas}")
+    private String defaultFuel;
+
+    @GetMapping("/testplane")
+    public String tp() {
+        return defaultAircraft;
+    }
+
+    @GetMapping("/testcomplexplane")
+    public String tcp() {
+        return defaultComplexAircraft;
+    }
+
+    @GetMapping("/airport")
+    public String ap() {
+        return defaultAirport;
+    }
+
+    @GetMapping("/fuel")
+    public String fuel() {
+        return defaultFuel;
+    }
+
     @GetMapping
     Flux<Airport> getAllAirports() {
         System.out.println(">>>> getAllAirports()");
