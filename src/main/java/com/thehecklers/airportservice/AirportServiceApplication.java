@@ -38,8 +38,9 @@ public class AirportServiceApplication {
 }
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 class AirportController {
+    @NonNull
     private final AirportService service;
 
     // Sample values served up by Config Service
