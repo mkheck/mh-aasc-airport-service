@@ -44,13 +44,13 @@ class AirportController {
     private final AirportService service;
 
     // Sample values served up by Config Service
-    @Value("{testplane:Archer}")
+    @Value("${testplane:Archer}")
     private String defaultAircraft;
-    @Value("{test.plane:Arrow}")
+    @Value("${test.plane:Arrow}")
     private String defaultComplexAircraft;
-    @Value("{airport:KABC}")
+    @Value("${airport:KABC}")
     private String defaultAirport;
-    @Value("{fbo.fuel:avgas}")
+    @Value("${fbo.fuel:avgas}")
     private String defaultFuel;
 
     @GetMapping("/testplane")
