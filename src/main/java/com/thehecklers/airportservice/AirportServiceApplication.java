@@ -62,12 +62,12 @@ class AirportController {
         return defaultComplexAircraft;
     }
 
-    @GetMapping("/airport")
+    @GetMapping("/testairport")
     public String ap() {
         return defaultAirport;
     }
 
-    @GetMapping("/fuel")
+    @GetMapping("/testfuel")
     public String fuel() {
         return defaultFuel;
     }
