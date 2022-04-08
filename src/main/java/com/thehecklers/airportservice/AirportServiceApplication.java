@@ -7,9 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +29,7 @@ public class AirportServiceApplication {
         return args -> {
             Flux.just("KSTL", "KSUS", "KCPS", "KALN", "KBLV", "KCOU", "KJEF", "KSPI", "KDEC", "KCMI", "KMDH", "KMWA", "KCGI", "KTBN")
                     .map(service::retrieveAirport)
-                    .flatMap(repo::saveAll)
+                    .flatMap(repo::save)
                     .subscribe();
         };
     }
@@ -124,16 +122,31 @@ class AirportService {
     }
 }
 
-interface AirportRepository extends ReactiveCrudRepository<Airport, String> {
+@Repository
+class AirportRepository {
+    private Flux<Airport> apFlux = Flux.empty();
+
+    public final Flux<Airport> findAll() {
+        return apFlux;
+    }
+
+    public final Mono<Airport> findById(String id) {
+        return apFlux.filter(ap -> ap.getIcao().equalsIgnoreCase(id))
+                .next();
+    }
+
+    public final Mono<Airport> save(Mono<Airport> airportMono) {
+        apFlux = apFlux.concatWith(airportMono);
+
+        return airportMono;
+    }
 }
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Document
 class Airport {
-    @Id
     private String icao;
     private String city, state, elevation_ft, name;
     private double latitude, longitude;
